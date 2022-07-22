@@ -3,18 +3,47 @@
 Component to generate and regenerate a keypair, in a deterministic and private way.
 The cryptographic part consists of two [Zenroom](zenroom.org) smart contracts, the first executed server-side to generate a seed (based on public data such as user name), the second generate client side, based on the output of the first smart contract and on private information, namely "The challenges". 
 
+
+```mermaid
+sequenceDiagram
+autonumber
+  participant U as 🤓User
+  participant C as 📱Client
+  participant S as Server
+  
+  U->>C: Types public info
+  C->>S: Sends user public info
+  S->>S: PBKDF user public info
+  S->>C: Sends PBKDF
+  U->>C: User answers challenges   
+  C->>C: Generate seed (answers' hash + PBKDF)
+  C->>S: (Optional) Sends hash of individual answers
+  C->>C: Generate SKs from seed 
+```
+
+1. User types his public info
+1. Client sends users' public info to server
+1. Server creates PBKDF of user's public info
+1. Server sends PBKDF to client
+1. User answers challenges in the Client
+1. Client creates the hash of the answers, and concatenates it to create the seed
+1. Optional: the Client sends the individual hash of the answers to server, to make key recreation more user-friendly
+1. Client generate secret keys from seed
+
+
 # Input data of the smart contracts 
 
  - [Seed: input data needed to generate the pbkdf from the server](./zencode/Keypair-Creation-Server-Side.keys ':include :type=code json') 
  
 ```json
 {
-   "theBackend":{
-      "keypair":{
-         "private_key":"Aku7vkJ7K01gQehKELav3qaQfTeTMZKgK+5VhaR3Ui0=",
-         "public_key":"BBCQg21VcjsmfTmNsg+I+8m1Cm0neaYONTqRnXUjsJLPa8075IYH+a9w2wRO7rFM1cKmv19Igd7ntDZcUvLq3xI="
-      }
-   },
+	"theBackend": {
+		"keyring": {
+			"ecdh": "wDW6WKeI7pNRENX2Ni6TNT2beATsbcANLNDqavOfRKk="
+		}
+	},
+	"theBackendPassword": "myVerySecretPassword"
+},
    "theBackendPassword":"myVerySecretPassword",
    "userData":{
       "username":"JohnDoe",
