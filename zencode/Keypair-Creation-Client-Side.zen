@@ -1,4 +1,10 @@
-Scenario 'ecdh': create keypair from data
+Scenario 'ecdh': Create the key
+Scenario 'ethereum': Create key
+Scenario 'reflow': Create the key
+Scenario 'schnorr': Create the key
+Scenario 'eddsa': Create the key
+Scenario 'qp': Create the key
+
 
 # Loading the user name from data
 Given my name is in a 'string' named 'username'
@@ -32,7 +38,14 @@ When I create the hash of 'key_derivation'
 and I rename the 'hash' to 'concatenatedHashes'
 
 # Creating the keypair from the hash just created
-When I create the keypair with secret key 'concatenatedHashes'
+#When I create the keypair with secret key 'concatenatedHashes'
+
+When I create the ecdh key with secret key 'concatenatedHashes'
+When I create the ethereum key with secret key 'concatenatedHashes'
+When I create the reflow key with secret key 'concatenatedHashes'
+When I create the schnorr key with secret key 'concatenatedHashes'
+When I create the bitcoin key with secret key 'concatenatedHashes'
+When I create the eddsa key with secret key 'concatenatedHashes'
 
 When I create the 'base64 dictionary'
 and I rename the 'base64 dictionary' to 'hashedAnswers'
@@ -63,7 +76,7 @@ When I insert 'question5.hash' in 'hashedAnswers'
 
 
 
-Then print my 'keypair'
+Then print my 'keyring'
 
 # Comment the line below, if you don't want to output the hashes of the challenges
 Then print 'hashedAnswers'
