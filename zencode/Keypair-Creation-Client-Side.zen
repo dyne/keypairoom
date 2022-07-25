@@ -80,3 +80,4 @@ Then print my 'keyring'
 
 # Comment the line below, if you don't want to output the hashes of the challenges
 Then print 'hashedAnswers'
+Then print 'concatenatedHashes' as 'mnemonic'
