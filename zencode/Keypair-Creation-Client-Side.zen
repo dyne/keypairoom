@@ -40,12 +40,16 @@ and I rename the 'hash' to 'concatenatedHashes'
 # Creating the keypair from the hash just created
 #When I create the keypair with secret key 'concatenatedHashes'
 
-When I create the ecdh key with secret key 'concatenatedHashes'
-When I create the ethereum key with secret key 'concatenatedHashes'
-When I create the reflow key with secret key 'concatenatedHashes'
-When I create the schnorr key with secret key 'concatenatedHashes'
-When I create the bitcoin key with secret key 'concatenatedHashes'
-When I create the eddsa key with secret key 'concatenatedHashes'
+When I seed the random with 'concatenatedHashes'
+
+When I create the dilithium key
+When I create the bitcoin key
+When I create the ecdh key
+When I create the eddsa key
+When I create the ethereum key 
+When I create the reflow key
+When I create the schnorr key
+
 
 When I create the 'base64 dictionary'
 and I rename the 'base64 dictionary' to 'hashedAnswers'
