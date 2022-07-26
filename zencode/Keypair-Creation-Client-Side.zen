@@ -75,9 +75,11 @@ and I rename the 'hash' to 'question5.hash'
 When I insert 'question5.hash' in 'hashedAnswers'
 
 
+# This prints the keyring
+Then print the 'keyring'
 
-Then print my 'keyring'
+# this prints the hashes of the challenges
+Then print the 'hashedAnswers'
 
-# Comment the line below, if you don't want to output the hashes of the challenges
-Then print 'hashedAnswers'
-Then print 'concatenatedHashes' as 'mnemonic'
+# This prints the seed for the private keys as mnemonic 
+Then print the 'concatenatedHashes' as 'mnemonic'
