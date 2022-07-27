@@ -9,7 +9,8 @@ Given I have a 'string' named 'theBackendPassword'
 Given I have a 'string dictionary' named 'userData'
 
 # The server creates a PBKDF of the 'userData'
-When I create the key derivation of 'userData' with password 'theBackendPassword'
 
+When I create the HMAC of 'userData' with key 'theBackendPassword'
+When I rename the 'HMAC' to 'seedServerSideShard.HMAC'
 # Here we print the PBKDF
-Then print the 'key derivation'
+Then print the 'seedServerSideShard.HMAC'

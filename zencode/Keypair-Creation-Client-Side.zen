@@ -16,9 +16,6 @@ Given my name is in a 'string' named 'username'
 # NOTE: the challenges will never be communicated to the server or to anybody else!
 Given I have a 'string dictionary' named 'userChallenges'
 
-# Loading the pbkdf received from the server, containing a signed hash of known data
-Given that I have a 'string' named 'key_derivation'  
-
 # Loading the individual challenges, in order to have them hashed 
 # and the hashes OPTIONALLY stored by the server, to improve regeneration of the keypair
 Given I have a 'string' named 'question1' in 'userChallenges'
@@ -27,23 +24,28 @@ Given I have a 'string' named 'question3' in 'userChallenges'
 Given I have a 'string' named 'question4' in 'userChallenges'
 Given I have a 'string' named 'question5' in 'userChallenges'
 
+# Loading the pbkdf received from the server, containing a signed hash of known data
+Given that I have a 'base64' named 'seedServerSideShard.HMAC'  
+
+When I copy 'seedServerSideShard.HMAC' to 'password'
 
 # Hashing the user's challenges and renaming it
-When I create the hash of 'userChallenges'
-and I rename the 'hash' to 'userChallenges.hash'
+When I create the key derivation of 'userChallenges' with password 'password'
+#When I create the key derivation of 'userChallenges'
+and I rename the 'key derivation' to 'userChallenges.pbkdf'
 
 # appending the user challenges' hash to the pbkdf, hashing the result and renaming it 
-When I append 'userChallenges.hash' to 'key_derivation'
-When I create the hash of 'key_derivation'
-and I rename the 'hash' to 'concatenatedHashes'
+When I append 'userChallenges.pbkdf' to 'seedServerSideShard.HMAC'
+
+
+When I create the key derivation of 'seedServerSideShard.HMAC' with password 'password'
+and I rename the 'key derivation' to 'seed'
 
 # Creating the keypair from the hash just created
 #When I create the keypair with secret key 'concatenatedHashes'
 
-When I seed the random with 'concatenatedHashes'
+When I seed the random with 'seed'
 
-When I create the dilithium key
-When I create the bitcoin key
 When I create the ecdh key
 When I create the eddsa key
 When I create the ethereum key 
@@ -51,12 +53,11 @@ When I create the reflow key
 When I create the schnorr key
 
 When I create the ecdh public key
-When I create the reflow public key
-When I create the schnorr public key
-When I create the bitcoin public key
 When I create the eddsa public key
 When I create the ethereum address
-When I create the dilithium public key
+When I create the reflow public key
+When I create the schnorr public key
+
 
 
 When I create the 'base64 dictionary'
@@ -94,13 +95,10 @@ Then print the 'keyring'
 Then print the 'hashedAnswers'
 
 # This prints the seed for the private keys as mnemonic 
-Then print the 'concatenatedHashes' as 'mnemonic'
-
+Then print the 'seed' as 'mnemonic'
 
 Then print the 'ecdh public key'
-Then print the 'reflow public key'
-Then print the 'schnorr public key'
-Then print the 'bitcoin public key'
 Then print the 'eddsa public key'
 Then print the 'ethereum address'
-Then print the 'dilithium public key'
+Then print the 'reflow public key'
+Then print the 'schnorr public key'
