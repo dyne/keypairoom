@@ -1,10 +1,10 @@
 {
 	"userChallenges": {
-		"question1": "Paris",
-		"question2": "ScoobyDoo",
-		"question3": "Amsterdam",
-		"question4": "null",
-		"question5": "null"
+		"whereParentsMet": "Paris",
+		"nameFirstPet": "ScoobyDoo",
+		"whereHomeTown": "Amsterdam",
+		"nameFirstTeacher": "null",
+		"nameMotherMaid": "null"
 	},
 	"username": "JohnDoe",
 	"seedServerSideShard.HMAC": "cmfjuN95eQ+HW3h9u6/YJvL9xTbyjgns2S2SFDBsPsY="

@@ -7,15 +7,32 @@ Scenario 'eddsa': Create the key
 # here we load the seed as a mnemonic
 Given I have a 'mnemonic' named 'seed'
 
-# here we use the seed to generate the random
-When I seed the random with 'seed'
-
 # SKs generation
-When I create the ecdh key
-When I create the eddsa key
-When I create the ethereum key 
-When I create the reflow key
-When I create the schnorr key
+# In this flow the order should NOT be changed
+
+When I create the hash of 'seed'
+When I rename the 'hash' to 'seed.root'
+
+When I create the hash of 'seed.root'
+When I rename the 'hash' to 'seed.ecdh'
+
+When I create the hash of 'seed.ecdh'
+When I rename the 'hash' to 'seed.eddsa'
+
+When I create the hash of 'seed.eddsa'
+When I rename the 'hash' to 'seed.ethereum'
+
+When I create the hash of 'seed.ethereum'
+When I rename the 'hash' to 'seed.reflow'
+
+When I create the hash of 'seed.reflow'
+When I rename the 'hash' to 'seed.schnorr'
+
+When I create the ecdh key with secret key 'seed.ecdh'
+When I create the eddsa key with secret key 'seed.eddsa'
+When I create the ethereum key with secret key 'seed.ethereum'
+When I create the reflow key with secret key 'seed.reflow'
+When I create the schnorr key with secret key 'seed.schnorr'
 
 # PKs generation
 When I create the ecdh public key

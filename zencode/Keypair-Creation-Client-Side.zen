@@ -18,39 +18,46 @@ Given I have a 'string dictionary' named 'userChallenges'
 
 # Loading the individual challenges, in order to have them hashed 
 # and the hashes OPTIONALLY stored by the server, to improve regeneration of the keypair
-Given I have a 'string' named 'question1' in 'userChallenges'
-Given I have a 'string' named 'question2' in 'userChallenges'
-Given I have a 'string' named 'question3' in 'userChallenges'
-Given I have a 'string' named 'question4' in 'userChallenges'
-Given I have a 'string' named 'question5' in 'userChallenges'
+Given I have a 'string' named 'whereParentsMet' in 'userChallenges'
+Given I have a 'string' named 'nameFirstPet' in 'userChallenges'
+Given I have a 'string' named 'whereHomeTown' in 'userChallenges'
+Given I have a 'string' named 'nameFirstTeacher' in 'userChallenges'
+Given I have a 'string' named 'nameMotherMaid' in 'userChallenges'
 
 # Loading the pbkdf received from the server, containing a signed hash of known data
 Given that I have a 'base64' named 'seedServerSideShard.HMAC'  
 
-When I copy 'seedServerSideShard.HMAC' to 'password'
+When I copy 'seedServerSideShard.HMAC' to 'salt'
 
 # Hashing the user's challenges and renaming it
-When I create the key derivation of 'userChallenges' with password 'password'
+When I create the key derivation of 'userChallenges' with password 'salt'
 #When I create the key derivation of 'userChallenges'
-and I rename the 'key derivation' to 'userChallenges.pbkdf'
-
-# appending the user challenges' hash to the pbkdf, hashing the result and renaming it 
-When I append 'userChallenges.pbkdf' to 'seedServerSideShard.HMAC'
-
-
-When I create the key derivation of 'seedServerSideShard.HMAC' with password 'password'
 and I rename the 'key derivation' to 'seed'
 
-# Creating the keypair from the hash just created
-#When I create the keypair with secret key 'concatenatedHashes'
+# In this flow the order should NOT be changed
+When I create the hash of 'seed'
+When I rename the 'hash' to 'seed.root'
 
-When I seed the random with 'seed'
+When I create the hash of 'seed.root'
+When I rename the 'hash' to 'seed.ecdh'
 
-When I create the ecdh key
-When I create the eddsa key
-When I create the ethereum key 
-When I create the reflow key
-When I create the schnorr key
+When I create the hash of 'seed.ecdh'
+When I rename the 'hash' to 'seed.eddsa'
+
+When I create the hash of 'seed.eddsa'
+When I rename the 'hash' to 'seed.ethereum'
+
+When I create the hash of 'seed.ethereum'
+When I rename the 'hash' to 'seed.reflow'
+
+When I create the hash of 'seed.reflow'
+When I rename the 'hash' to 'seed.schnorr'
+
+When I create the ecdh key with secret key 'seed.ecdh'
+When I create the eddsa key with secret key 'seed.eddsa'
+When I create the ethereum key with secret key 'seed.ethereum'
+When I create the reflow key with secret key 'seed.reflow'
+When I create the schnorr key with secret key 'seed.schnorr'
 
 When I create the ecdh public key
 When I create the eddsa public key
@@ -59,37 +66,35 @@ When I create the reflow public key
 When I create the schnorr public key
 
 
+# Creating the hashes of the single challenges, to OPTIONALLY help 
+# regeneration of the keypair
 
 When I create the 'base64 dictionary'
 and I rename the 'base64 dictionary' to 'hashedAnswers'
 
+When I create the key derivation of 'whereParentsMet'
+and I rename the 'key derivation' to 'whereParentsMet.kdf'
+When I insert 'whereParentsMet.kdf' in 'hashedAnswers'
 
-# Creating the hashes of the single challenges, to OPTIONALLY help 
-# regeneration of the keypair
+When I create the key derivation of 'nameFirstPet'
+and I rename the 'key derivation' to 'nameFirstPet.kdf'
+When I insert 'nameFirstPet.kdf' in 'hashedAnswers'
 
-When I create the hash of 'question1'
-and I rename the 'hash' to 'question1.hash'
-When I insert 'question1.hash' in 'hashedAnswers'
+When I create the key derivation of 'whereHomeTown'
+and I rename the 'key derivation' to 'whereHomeTown.kdf'
+When I insert 'whereHomeTown.kdf' in 'hashedAnswers'
 
-When I create the hash of 'question2'
-and I rename the 'hash' to 'question2.hash'
-When I insert 'question2.hash' in 'hashedAnswers'
+When I create the key derivation of 'nameFirstTeacher'
+and I rename the 'key derivation' to 'nameFirstTeacher.kdf'
+When I insert 'nameFirstTeacher.kdf' in 'hashedAnswers'
 
-When I create the hash of 'question3'
-and I rename the 'hash' to 'question3.hash'
-When I insert 'question3.hash' in 'hashedAnswers'
-
-When I create the hash of 'question4'
-and I rename the 'hash' to 'question4.hash'
-When I insert 'question4.hash' in 'hashedAnswers'
-
-When I create the hash of 'question5'
-and I rename the 'hash' to 'question5.hash'
-When I insert 'question5.hash' in 'hashedAnswers'
+When I create the key derivation of 'nameMotherMaid'
+and I rename the 'key derivation' to 'nameMotherMaid.kdf'
+When I insert 'nameMotherMaid.kdf' in 'hashedAnswers'
 
 
 # This prints the keyring
-Then print the 'keyring'
+Then print the 'keyring' 
 
 # this prints the hashes of the challenges
 Then print the 'hashedAnswers'
