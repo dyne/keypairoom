@@ -13,22 +13,26 @@ autonumber
   
   U->>C: Types public info
   C->>S: Sends user public info
-  S->>S: PBKDF user public info
-  S->>C: Sends PBKDF
-  U->>C: User answers challenges   
-  C->>C: Generate seed (answers' hash + PBKDF)
-  C->>S: (Optional) Sends hash of individual answers
-  C->>C: Generate SKs from seed 
+  S->>S: HMAC of user public info
+  S->>C: Sends HMAC
+  U->>C: Answers to challenges 
+  C->>C: KDF of answers
+  C->>C: Concatenate KDF + HMAC
+  C->>C: Produce seed: PBKDF of KDF + HMAC (HMAC as password) 
+  C->>S: (Optional) Sends KDF of individual answers
+  C->>C: Generate SKs and PKs from seed 
 ```
 
 1. User types his public info
 1. Client sends users' public info to server
-1. Server creates PBKDF of user's public info
-1. Server sends PBKDF to client
+1. Server creates HMAC of user's public info
+1. Server sends HMAC to client
 1. User answers challenges in the Client
-1. Client creates the hash of the answers, and concatenates it to create the seed
-1. Optional: the Client sends the individual hash of the answers to server, to make key recreation more user-friendly
-1. Client generate secret keys from seed
+1. Client produces KDF of answers
+1. Client concatenats answers' KDF to HMAC
+1. Client produces the **seed** by doing PBKDF of concatenated KDF + HMAC, using the HMAC as password
+1. Optional: the Client sends the individual KDF of the answers to server, to make key recreation more user-friendly
+1. Client generate secret keys from **seed** and public keys
 
 
 # Input data of the smart contracts 
