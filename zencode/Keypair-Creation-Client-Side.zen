@@ -31,8 +31,10 @@ When I copy 'seedServerSideShard.HMAC' to 'salt'
 
 # Hashing the user's challenges and renaming it
 When I create the key derivation of 'userChallenges' with password 'salt'
-#When I create the key derivation of 'userChallenges'
-and I rename the 'key derivation' to 'seed'
+
+When I split the leftmost '16' bytes of 'key derivation'
+When I delete the 'key derivation'
+When I rename the 'leftmost' to 'seed'
 
 # In this flow the order should NOT be changed
 When I create the hash of 'seed'
